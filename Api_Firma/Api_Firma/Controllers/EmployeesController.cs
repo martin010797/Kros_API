@@ -30,5 +30,54 @@ namespace Api_Firma.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from database");
             }
         }
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<EmployeeBasic>> GetEmployee(int id)
+        {
+            try
+            {
+                var result = await employeeRepository.GetEmployee(id);
+                if(result == null)
+                {
+                    return NotFound();
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from database");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<EmployeeBasic>> CreateEmployee(EmployeeBasic employee)
+        {
+            try
+            {
+                if (employee == null)
+                {
+                    return BadRequest();
+                }
+                var newEmployee = await employeeRepository.AddEmployee(employee);
+
+                return CreatedAtAction(nameof(GetEmployee),
+                    new { id = newEmployee.EmployeeId }, EmployeeToBasic(newEmployee));
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new employee");
+            }
+        }
+
+        private static EmployeeBasic EmployeeToBasic(Employee employee) =>
+            new EmployeeBasic
+            {
+                EmployeeId = employee.EmployeeId,
+                Degree = employee.Degree,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                CellPhone = employee.CellPhone,
+                Email = employee.Email
+            };
     }
 }

@@ -7,9 +7,9 @@ namespace Api_Firma.Models
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<Employee>> GetEmployees();
-        Task<Employee> GetEmployee(int employeeID);
-        Task<Employee> AddEmployee(Employee employee);
+        Task<IEnumerable<EmployeeBasic>> GetEmployees();
+        Task<EmployeeBasic> GetEmployee(int employeeID);
+        Task<Employee> AddEmployee(EmployeeBasic employee);
         Task<Employee> UpdateEmployee(Employee employee);
         Task DeleteEmployee(int employeeID);
     }

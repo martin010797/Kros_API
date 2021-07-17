@@ -14,10 +14,24 @@ namespace Api_Firma.Models
         {
             this.appDbContext = appDbContext;
         }
-        public async Task<Employee> AddEmployee(Employee employee)
+        public async Task<Employee> AddEmployee(EmployeeBasic employee)
         {
-            var result = await appDbContext.Employees.AddAsync(employee);
+            /*var result = await appDbContext.Employees.AddAsync(employee);
             await appDbContext.SaveChangesAsync();
+            return result.Entity;*/
+            var newEmployee = new Employee
+            {
+                EmployeeId = employee.EmployeeId,
+                Degree = employee.Degree,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                CellPhone = employee.CellPhone,
+                Email = employee.Email
+            };
+
+            var result = await appDbContext.Employees.AddAsync(newEmployee);
+            await appDbContext.SaveChangesAsync();
+
             return result.Entity;
         }
 
@@ -32,15 +46,28 @@ namespace Api_Firma.Models
             }
         }
 
-        public async Task<Employee> GetEmployee(int employeeID)
+        public async Task<EmployeeBasic> GetEmployee(int employeeID)
         {
-            return await appDbContext.Employees
+            /*return await appDbContext.Employees
+                .FirstOrDefaultAsync(e => e.EmployeeId == employeeID);*/
+
+            var result = await appDbContext.Employees
                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeID);
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return EmployeeToBasic(result);
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployees()
+        public async Task<IEnumerable<EmployeeBasic>> GetEmployees()
         {
-            return await appDbContext.Employees.ToListAsync();
+            //return await appDbContext.Employees.ToListAsync();
+            return await appDbContext.Employees
+                .Select(x => EmployeeToBasic(x))
+                .ToListAsync();
         }
 
         public async Task<Employee> UpdateEmployee(Employee employee)
@@ -59,5 +86,16 @@ namespace Api_Firma.Models
             }
             return null;
         }
+        private static EmployeeBasic EmployeeToBasic(Employee employee) =>
+            new EmployeeBasic
+            {
+                EmployeeId = employee.EmployeeId,
+                Degree = employee.Degree,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                CellPhone = employee.CellPhone,
+                Email = employee.Email
+            };
     }
+
 }

@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Api_Firma
@@ -34,7 +35,9 @@ namespace Api_Firma
               //  options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-
+            services.AddScoped<IBelongsToRepository, BelongsToRepository>();
+            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddScoped<IStructureRepository, StructureRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
