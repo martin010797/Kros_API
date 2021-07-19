@@ -10,7 +10,7 @@ namespace Api_Firma.Models
         Task<IEnumerable<EmployeeBasic>> GetEmployees();
         Task<EmployeeBasic> GetEmployee(int employeeID);
         Task<Employee> AddEmployee(EmployeeBasic employee);
-        Task<Employee> UpdateEmployee(Employee employee);
+        Task<EmployeeBasic> UpdateEmployee(EmployeeBasic employee);
         Task DeleteEmployee(int employeeID);
     }
 }

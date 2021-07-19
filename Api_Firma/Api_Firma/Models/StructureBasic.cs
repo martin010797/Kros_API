@@ -9,18 +9,10 @@ namespace Api_Firma.Models
 {
     public class StructureBasic
     {
-      //  [Key]
-        //[Column("structureCode")]
         public int StructureCode { get; set; }
-       // [Required]
-       // [Column("name")]
-        //[StringLength(50)]
         public string Name { get; set; }
-        //[Column("type")]
         public int Type { get; set; }
-        //[Column("bossID")]
         public int BossId { get; set; }
-        //[Column("upperStructureID")]
         public int? UpperStructureId { get; set; }
     }
 }

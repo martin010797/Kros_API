@@ -70,7 +70,7 @@ namespace Api_Firma.Models
                 .ToListAsync();
         }
 
-        public async Task<Employee> UpdateEmployee(Employee employee)
+        public async Task<EmployeeBasic> UpdateEmployee(EmployeeBasic employee)
         {
             var result = await appDbContext.Employees
                 .FirstOrDefaultAsync(e => e.EmployeeId == employee.EmployeeId);
@@ -83,6 +83,8 @@ namespace Api_Firma.Models
                 result.Email = employee.Email;
 
                 await appDbContext.SaveChangesAsync();
+
+                return EmployeeToBasic(result);
             }
             return null;
         }

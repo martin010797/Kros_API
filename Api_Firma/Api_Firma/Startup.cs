@@ -36,7 +36,7 @@ namespace Api_Firma
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IBelongsToRepository, BelongsToRepository>();
-            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            //services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddScoped<IStructureRepository, StructureRepository>();
 
             services.AddControllers();
