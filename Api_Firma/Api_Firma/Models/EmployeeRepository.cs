@@ -16,9 +16,6 @@ namespace Api_Firma.Models
         }
         public async Task<Employee> AddEmployee(EmployeeBasic employee)
         {
-            /*var result = await appDbContext.Employees.AddAsync(employee);
-            await appDbContext.SaveChangesAsync();
-            return result.Entity;*/
             var newEmployee = new Employee
             {
                 EmployeeId = employee.EmployeeId,
@@ -48,9 +45,6 @@ namespace Api_Firma.Models
 
         public async Task<EmployeeBasic> GetEmployee(int employeeID)
         {
-            /*return await appDbContext.Employees
-                .FirstOrDefaultAsync(e => e.EmployeeId == employeeID);*/
-
             var result = await appDbContext.Employees
                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeID);
 
@@ -64,7 +58,6 @@ namespace Api_Firma.Models
 
         public async Task<IEnumerable<EmployeeBasic>> GetEmployees()
         {
-            //return await appDbContext.Employees.ToListAsync();
             return await appDbContext.Employees
                 .Select(x => EmployeeToBasic(x))
                 .ToListAsync();

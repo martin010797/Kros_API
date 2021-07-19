@@ -7,10 +7,10 @@ namespace Api_Firma.Models
 {
     public interface IBelongsToRepository
     {
-        Task<IEnumerable<BelongsTo>> GetBelongsTos();
-        Task<BelongsTo> GetBelongsTo(int ID);
-        Task<BelongsTo> AddBelonging(BelongsTo belongsTo);
-        Task<BelongsTo> UpdateBelonging(BelongsTo belongsTo);
+        Task<IEnumerable<BelongsToBasic>> GetBelongsTos();
+        Task<BelongsToBasic> GetBelongsTo(int ID);
+        Task<BelongsTo> AddBelonging(BelongsToBasic belongsTo);
+        Task<BelongsToBasic> UpdateBelonging(BelongsToBasic belongsTo);
         Task DeleteBelonging(int ID);
     }
 }

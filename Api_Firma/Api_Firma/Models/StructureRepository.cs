@@ -14,10 +14,23 @@ namespace Api_Firma.Models
         {
             this.appDbContext = appDbContext;
         }
-        public async Task<Structure> AddStructure(Structure structure)
+        public async Task<Structure> AddStructure(StructureBasic structure)
         {
-            var result = await appDbContext.Structures.AddAsync(structure);
+            /*var result = await appDbContext.Structures.AddAsync(structure);
             await appDbContext.SaveChangesAsync();
+            return result.Entity;*/
+
+            var newStructure = new Structure
+            {
+                StructureCode = structure.StructureCode,
+                Name = structure.Name,
+                Type = structure.Type,
+                BossId = structure.BossId,
+                UpperStructureId = structure.UpperStructureId
+            };
+            var result = await appDbContext.Structures.AddAsync(newStructure);
+            await appDbContext.SaveChangesAsync();
+
             return result.Entity;
         }
 
@@ -34,15 +47,19 @@ namespace Api_Firma.Models
             }
         }
 
-        public async Task<Structure> GetStructure(int structureID)
+        public async Task<StructureBasic> GetStructure(int structureID)
         {
-            return await appDbContext.Structures
+            var result = await appDbContext.Structures
                 .FirstOrDefaultAsync(s => s.StructureCode == structureID);
+            if(result == null)
+            {
+                return null;
+            }
+            return StructureToBasic(result);
         }
 
         public async Task<IEnumerable<StructureBasic>> GetStructures()
         {
-            //return await appDbContext.Structures.ToListAsync();
             return await appDbContext.Structures
                 .Select(x => StructureToBasic(x))
                 .ToListAsync();
@@ -58,7 +75,7 @@ namespace Api_Firma.Models
                 UpperStructureId = structure.UpperStructureId
             };
 
-        public async Task<Structure> UpdateStructure(Structure structure)
+        public async Task<StructureBasic> UpdateStructure(StructureBasic structure)
         {
             var result = await appDbContext.Structures
                 .FirstOrDefaultAsync(s => s.StructureCode == structure.StructureCode);
@@ -70,6 +87,8 @@ namespace Api_Firma.Models
                 result.UpperStructureId = structure.UpperStructureId;
 
                 await appDbContext.SaveChangesAsync();
+
+                return StructureToBasic(result);
             }
             return null;
         }

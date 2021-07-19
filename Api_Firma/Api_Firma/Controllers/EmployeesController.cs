@@ -86,9 +86,6 @@ namespace Api_Firma.Controllers
                 }
 
                 return await employeeRepository.UpdateEmployee(employee);
-                //return CreatedAtAction(nameof(GetEmployee),
-                  //  new { id = newEmployee.EmployeeId }, EmployeeToBasic(newEmployee));
-
             }
             catch (Exception)
             {

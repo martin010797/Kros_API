@@ -13,9 +13,19 @@ namespace Api_Firma.Models
         {
             this.appDbContext = appDbContext;
         }
-        public async Task<BelongsTo> AddBelonging(BelongsTo belongsTo)
+        public async Task<BelongsTo> AddBelonging(BelongsToBasic belongsTo)
         {
-            var result = await appDbContext.BelongsTos.AddAsync(belongsTo);
+            /*var result = await appDbContext.BelongsTos.AddAsync(belongsTo);
+            await appDbContext.SaveChangesAsync();
+            return result.Entity;*/
+
+            var newBelongsTo = new BelongsTo
+            {
+                Id = belongsTo.Id,
+                EmployeeId = belongsTo.EmployeeId,
+                StructureId = belongsTo.StructureId
+            };
+            var result = await appDbContext.BelongsTos.AddAsync(newBelongsTo);
             await appDbContext.SaveChangesAsync();
             return result.Entity;
         }
@@ -31,18 +41,25 @@ namespace Api_Firma.Models
             }
         }
 
-        public async Task<BelongsTo> GetBelongsTo(int ID)
+        public async Task<BelongsToBasic> GetBelongsTo(int ID)
+        {
+            var result = await appDbContext.BelongsTos
+                .FirstOrDefaultAsync(b => b.Id == ID);
+            if(result == null)
+            {
+                return null;
+            }
+            return BelongsToToBasic(result);
+        }
+
+        public async Task<IEnumerable<BelongsToBasic>> GetBelongsTos()
         {
             return await appDbContext.BelongsTos
-                .FirstOrDefaultAsync(b => b.Id == ID);
+                .Select(x => BelongsToToBasic(x))
+                .ToListAsync();
         }
 
-        public async Task<IEnumerable<BelongsTo>> GetBelongsTos()
-        {
-            return await appDbContext.BelongsTos.ToListAsync();
-        }
-
-        public async Task<BelongsTo> UpdateBelonging(BelongsTo belongsTo)
+        public async Task<BelongsToBasic> UpdateBelonging(BelongsToBasic belongsTo)
         {
             var result = await appDbContext.BelongsTos
                 .FirstOrDefaultAsync(b => b.Id == belongsTo.Id);
@@ -52,8 +69,18 @@ namespace Api_Firma.Models
                 result.StructureId = belongsTo.StructureId;
 
                 await appDbContext.SaveChangesAsync();
+
+                return BelongsToToBasic(result);
             }
             return null;
         }
+
+        private static BelongsToBasic BelongsToToBasic(BelongsTo belongsTo) =>
+           new BelongsToBasic
+           {
+               Id = belongsTo.Id,
+               EmployeeId = belongsTo.EmployeeId,
+               StructureId = belongsTo.StructureId
+           };
     }
 }
