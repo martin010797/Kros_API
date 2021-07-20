@@ -31,12 +31,9 @@ namespace Api_Firma
         {
             services.AddDbContext<AppDbContext>(options =>
               options.UseSqlServer("Data Source=DESKTOP-3SVE3LJ\\SQLEXPRESS;Initial Catalog=Structure_of_company;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-            //services.AddDbContext<AppDbContext>(options =>
-              //  options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IBelongsToRepository, BelongsToRepository>();
-            //services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddScoped<IStructureRepository, StructureRepository>();
 
             services.AddControllers();

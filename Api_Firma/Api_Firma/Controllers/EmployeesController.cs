@@ -38,7 +38,7 @@ namespace Api_Firma.Controllers
                 var result = await employeeRepository.GetEmployee(id);
                 if (result == null)
                 {
-                    return NotFound();
+                    return NotFound("Employee with this ID doesnt exist");
                 }
                 return result;
             }

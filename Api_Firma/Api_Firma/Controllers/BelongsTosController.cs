@@ -39,7 +39,7 @@ namespace Api_Firma.Controllers
                 var result = await belongsToRepository.GetBelongsTo(id);
                 if (result == null)
                 {
-                    return NotFound();
+                    return NotFound("BelongsTo with this ID doesnt exist");
                 }
                 return result;
             }
@@ -98,9 +98,9 @@ namespace Api_Firma.Controllers
         {
             try
             {
-                var deletedEmployee = await belongsToRepository.GetBelongsTo(id);
+                var deletedBelongsTo = await belongsToRepository.GetBelongsTo(id);
 
-                if (deletedEmployee == null)
+                if (deletedBelongsTo == null)
                 {
                     return NotFound("BelongsTo with this ID doesnt exist");
                 }

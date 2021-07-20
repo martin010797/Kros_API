@@ -39,7 +39,7 @@ namespace Api_Firma.Controllers
                 var result = await structureRepository.GetStructure(id);
                 if (result == null)
                 {
-                    return NotFound();
+                    return NotFound("Structure with this ID doesnt exist");
                 }
                 return result;
             }

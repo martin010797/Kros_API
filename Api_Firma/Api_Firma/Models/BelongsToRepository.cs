@@ -15,10 +15,6 @@ namespace Api_Firma.Models
         }
         public async Task<BelongsTo> AddBelonging(BelongsToBasic belongsTo)
         {
-            /*var result = await appDbContext.BelongsTos.AddAsync(belongsTo);
-            await appDbContext.SaveChangesAsync();
-            return result.Entity;*/
-
             var newBelongsTo = new BelongsTo
             {
                 Id = belongsTo.Id,

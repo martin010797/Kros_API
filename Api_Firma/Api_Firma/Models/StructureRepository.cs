@@ -16,10 +16,6 @@ namespace Api_Firma.Models
         }
         public async Task<Structure> AddStructure(StructureBasic structure)
         {
-            /*var result = await appDbContext.Structures.AddAsync(structure);
-            await appDbContext.SaveChangesAsync();
-            return result.Entity;*/
-
             var newStructure = new Structure
             {
                 StructureCode = structure.StructureCode,
@@ -36,8 +32,6 @@ namespace Api_Firma.Models
 
         public async Task DeleteStructure(int structureID)
         {
-            //ak existuju  vstrukture nejaky zamestnanci tak mazat aj z belongsto tabulky
-
             var result = await appDbContext.Structures
                 .FirstOrDefaultAsync(s => s.StructureCode == structureID);
             if (result != null)
@@ -65,16 +59,6 @@ namespace Api_Firma.Models
                 .ToListAsync();
         }
 
-        private static StructureBasic StructureToBasic(Structure structure) =>
-            new StructureBasic
-            {
-                StructureCode = structure.StructureCode,
-                Name = structure.Name,
-                Type = structure.Type,
-                BossId = structure.BossId,
-                UpperStructureId = structure.UpperStructureId
-            };
-
         public async Task<StructureBasic> UpdateStructure(StructureBasic structure)
         {
             var result = await appDbContext.Structures
@@ -92,5 +76,15 @@ namespace Api_Firma.Models
             }
             return null;
         }
+
+        private static StructureBasic StructureToBasic(Structure structure) =>
+            new StructureBasic
+            {
+                StructureCode = structure.StructureCode,
+                Name = structure.Name,
+                Type = structure.Type,
+                BossId = structure.BossId,
+                UpperStructureId = structure.UpperStructureId
+            };
     }
 }
